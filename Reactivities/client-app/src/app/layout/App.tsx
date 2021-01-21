@@ -21,19 +21,28 @@ const App = () => {
   }
 
   const handleCreateActivity = (activity: IActivity) => {
-    setActivities([...activities, activity]);
-    setSelectedActivity(activity);
-    setEditMode(false);
+    ActivitiesAgent.create(activity)
+      .then(() => {
+        setActivities([...activities, activity]);
+        setSelectedActivity(activity);
+        setEditMode(false);
+      });
   }
 
   const handleEditActivity = (activity: IActivity) => {
-    setActivities([...activities.filter(a => a.id !== activity.id), activity]);
-    setSelectedActivity(activity);
-    setEditMode(false);
+    ActivitiesAgent.update(activity)
+      .then(() => {
+        setActivities([...activities.filter(a => a.id !== activity.id), activity]);
+        setSelectedActivity(activity);
+        setEditMode(false);
+      })
   }
 
   const handleDeleteActivity = (activityId : string) => {
-    setActivities([...activities.filter(a => a.id !== activityId)]);
+    ActivitiesAgent.delete(activityId)
+      .then(() => {
+        setActivities([...activities.filter(a => a.id !== activityId)]);
+      })
   }
 
   useEffect(() => {
