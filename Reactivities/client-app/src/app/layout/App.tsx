@@ -1,9 +1,9 @@
 import React, { useState, useEffect, Fragment} from 'react';
-import axios from 'axios'
 import {Container} from 'semantic-ui-react'
 import { IActivity } from '../models/activity';
 import { NavBar } from '../../features/nav/NavBar';
 import { ActivityDashboard } from '../../features/activities/dashboard/ActivityDashboard';
+import { ActivitiesAgent } from '../api/agent';
 
 const App = () => {
   const [activities, setActivities] = useState<IActivity[]>([])
@@ -37,18 +37,17 @@ const App = () => {
   }
 
   useEffect(() => {
-    axios
-    .get<IActivity[]>('http://localhost:5000/api/activities')
-    .then(res => {
-      let activities: IActivity[] = [];
+    ActivitiesAgent.list()
+      .then(res => {
+        let activities: IActivity[] = [];
 
-      res.data.forEach(activity => {
-        activity.date = activity.date.split('.')[0]
-        activities.push(activity);
+        res.forEach(activity => {
+          activity.date = activity.date.split('.')[0]
+          activities.push(activity);
+        })
+
+        setActivities(activities)
       })
-
-      setActivities(activities)
-    })
   }, []);
 
   return (
