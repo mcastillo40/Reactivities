@@ -4,4 +4,4 @@ obj
 .DS_Store
 appsettings.json
 *.db
-Reactivities/client-app/src/app/layout/App.tsx
+Reactivities/client-app/.eslintcache
